@@ -1,0 +1,39 @@
+---
+- name: Download Vector binary
+  get_url:
+    url: "{{ vector_download_url }}"
+    dest: "/tmp/vector-{{ vector_version }}.deb"
+    mode: '0644'
+  tags: vector-install
+
+- name: Install Vector package
+  apt:
+    deb: "/tmp/vector-{{ vector_version }}.deb"
+    state: present
+  become: true
+  tags: vector-install
+
+- name: Create Vector config directory
+  file:
+    path: /etc/vector
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Deploy Vector configuration
+  template:
+    src: vector.toml.j2
+    dest: /etc/vector/vector.toml
+    mode: '0644'
+    owner: root
+    group: root
+  become: true
+  notify: Restart Vector
+
+- name: Enable and start Vector service
+  systemd:
+    name: vector
+    enabled: true
+    state: started
+    daemon_reload: true
+  become: true

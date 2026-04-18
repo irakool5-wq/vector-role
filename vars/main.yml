@@ -1,0 +1,4 @@
+---
+vector_service_name: vector
+vector_binary_path: /usr/bin/vector
+vector_config_dir: /etc/vector

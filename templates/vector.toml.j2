@@ -1,0 +1,14 @@
+# Vector configuration - managed by Ansible
+data_dir = "/var/lib/vector"
+
+[sources.app_logs]
+type = "file"
+include = ["/var/log/app/*.log"]
+
+[sinks.clickhouse]
+type = "clickhouse"
+inputs = ["app_logs"]
+endpoint = "{{ clickhouse_endpoint | default('http://localhost:8123') }}"
+database = "{{ clickhouse_database | default('logs') }}"
+table = "{{ clickhouse_table | default('vector_logs') }}"
+compression = "lz4"

@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: alavidzeig
+  description: Role for installing and configuring Vector observability pipeline
+  license: MIT
+  min_ansible_version: "2.1"
+  platforms:
+    - name: Ubuntu
+      versions: [focal, jammy]
+    - name: Debian
+      versions: [bullseye, bookworm]
+  galaxy_tags: [monitoring, observability, vector, logging]
+
+dependencies: []
