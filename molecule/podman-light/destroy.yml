@@ -1,0 +1,16 @@
+---
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Remove podman container(s)
+      command: "podman rm -f {{ item.name }}"
+      loop: "{{ molecule_yml.platforms }}"
+      ignore_errors: true
+
+    - name: Remove instance config
+      file:
+        path: "{{ molecule_instance_config }}"
+        state: absent

@@ -1,0 +1,17 @@
+# Tox
+.tox/
+*.log
+.pytest_cache/
+
+# Molecule
+.molecule/
+*.retry
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/

@@ -1,0 +1,28 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: podman
+
+platforms:
+  - name: vector_light
+    image: ubuntu:22.04
+    pre_build_image: true
+    privileged: true
+    command: "tail -f /dev/null"
+
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: /usr/bin/python3
+      remote_tmp: /root/.ansible/tmp
+  playbooks:
+    create: create.yml
+    destroy: destroy.yml
+    converge: converge.yml
+    verify: verify.yml   
+
+verifier:
+  name: ansible

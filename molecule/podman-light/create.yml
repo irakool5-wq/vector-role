@@ -1,0 +1,36 @@
+---
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Remove old container if exists
+      command: podman rm -f vector_light
+      ignore_errors: true
+
+    - name: Create podman instance
+      command: >
+        podman run -d
+        --name vector_light
+        --privileged
+        -v /sys/fs/cgroup:/sys/fs/cgroup:ro
+        --tmpfs /run
+        --tmpfs /tmp
+        ubuntu:22.04
+        tail -f /dev/null
+      register: result
+      changed_when: result.rc == 0
+
+    - name: Write instance config
+      copy:
+        content: |
+          [
+            {
+              "name": "vector_light",
+              "address": "127.0.0.1",
+              "connection": "podman",
+              "user": "root"
+            }
+          ]
+        dest: "{{ molecule_instance_config }}"
