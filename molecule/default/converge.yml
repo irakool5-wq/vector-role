@@ -1,0 +1,35 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  gather_facts: false  
+
+  pre_tasks:
+ 
+    - name: Bootstrap sudo and python3 via raw module
+      ansible.builtin.raw: |
+        if [ -f /etc/debian_version ]; then
+          # Debian/Ubuntu
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -qq && apt-get install -y -qq sudo python3
+        elif [ -f /etc/redhat-release ]; then
+          # RHEL/CentOS/Oracle Linux
+          yum install -y -q sudo python3
+        fi
+      become: false  
+      changed_when: false
+      tags: [always]
+
+    
+    - name: Gather facts now that python3 and sudo are available
+      ansible.builtin.setup:
+
+  roles:
+    - role: ../../
+
+  post_tasks:
+    
+    - name: Allow time for services to initialize
+      ansible.builtin.pause:
+        seconds: 5
+      ignore_errors: true

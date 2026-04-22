@@ -1,14 +1,32 @@
 ---
 galaxy_info:
-  author: alavidzeig
-  description: Role for installing and configuring Vector observability pipeline
+  author: Alavidze
+  description: Role for Vector observability pipeline
+  company: Netology
   license: MIT
-  min_ansible_version: "2.1"
+  min_ansible_version: "2.9"
+
+  role_name: vector_role
+  namespace: alavidzeig
+
   platforms:
     - name: Ubuntu
-      versions: [focal, jammy]
+      versions:
+        - focal
+        - jammy
     - name: Debian
-      versions: [bullseye, bookworm]
-  galaxy_tags: [monitoring, observability, vector, logging]
+      versions:
+        - bullseye
+        - bookworm
+    - name: OracleLinux
+      versions:
+        - "8"
+
+  galaxy_tags:
+    - monitoring
+    - observability
+    - vector
+    - logging
+    - clickhouse
 
 dependencies: []
